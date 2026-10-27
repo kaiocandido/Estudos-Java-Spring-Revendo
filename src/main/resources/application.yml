@@ -15,4 +15,5 @@ spring:
     open-in-view: false
 logging:
   level:
+    # loggind global root: TRACE
     br.com.kaiocandido: DEBUG
