@@ -1,16 +1,27 @@
 package br.com.kaiocandido.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
+@Entity
+@Table(name = "person")
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "firstName", nullable = false, length = 80)
     private String fistName;
+    @Column(name = "lastName", nullable = false, length = 80)
     private String lastName;
+    @Column(nullable = false, length = 200)
     private String address;
+    @Column(nullable = false, length = 6)
     private String gender;
 
     public Person() {

@@ -1,12 +1,11 @@
 package br.com.kaiocandido.controllers;
 
-import br.com.kaiocandido.PersonService;
+import br.com.kaiocandido.service.PersonService;
 import br.com.kaiocandido.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -20,11 +19,11 @@ public class PersonController {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person findById(@PathVariable("id") String id){
+    public Person findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
 
-    @RequestMapping(value = "/findAll/{id}",
+    @RequestMapping(value = "/findAll",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -50,7 +49,7 @@ public class PersonController {
 
     @RequestMapping(value = "/delete/{id}",
             method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") String id){
+    public void delete(@PathVariable("id") Long id){
         personService.delete(id);
     }
 

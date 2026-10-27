@@ -1,6 +1,7 @@
 package br.com.kaiocandido.exception.handler;
 
 import br.com.kaiocandido.exception.ExceptionRespose;
+import br.com.kaiocandido.exception.ResourceNotFoundException;
 import br.com.kaiocandido.exception.UnsuportedMathOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,13 @@ public class CustumizeEntityResponseHandler extends ResponseEntityExceptionHandl
         ExceptionRespose response = new ExceptionRespose(new Date(), exception.getMessage(), webRequest.getDescription(false));
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public final ResponseEntity<ExceptionRespose> handleNotFoundExceptions(Exception exception, WebRequest webRequest){
+
+        ExceptionRespose response = new ExceptionRespose(new Date(), exception.getMessage(), webRequest.getDescription(false));
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
