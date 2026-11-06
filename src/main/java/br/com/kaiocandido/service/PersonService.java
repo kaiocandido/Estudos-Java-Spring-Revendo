@@ -1,5 +1,6 @@
 package br.com.kaiocandido.service;
 
+import br.com.kaiocandido.data.dto.PersonDto;
 import br.com.kaiocandido.exception.ResourceNotFoundException;
 import br.com.kaiocandido.model.Person;
 import br.com.kaiocandido.repository.PersonRepository;
@@ -7,40 +8,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
+
+import static br.com.kaiocandido.mapper.ObjectMapper.parseListObject;
+import static br.com.kaiocandido.mapper.ObjectMapper.parseObject;
 
 @Service
 public class PersonService {
 
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
-    private final AtomicLong counter = new AtomicLong();
-
     @Autowired
     private PersonRepository personRepository;
 
 
-    public Person findById(Long id){
+    public PersonDto findById(Long id){
         logger.info("Finding one Person!!");
 
-        return personRepository.findById(id)
+        Person entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
+        return parseObject(entity, PersonDto.class);
     }
 
-    public List<Person> findAll(){
+    public List<PersonDto> findAll(){
         logger.info("Find all People!!");
 
-        return personRepository.findAll();
+        return parseListObject(personRepository.findAll(), PersonDto.class);
     }
 
-    public Person create(Person person){
+    public PersonDto create(PersonDto person){
         logger.info("Create Person!!");
 
-        return personRepository.save(person);
+        Person entity = parseObject(person, Person.class);
+
+        return parseObject(personRepository.save(entity), PersonDto.class);
     }
 
-    public Person update(Person person){
+    public PersonDto update(PersonDto person){
         logger.info("Update Person!!");
 
         Person entity = personRepository.findById(person.getId())
@@ -51,7 +56,7 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return personRepository.save(entity);
+        return parseObject(personRepository.save(entity), PersonDto.class);
     }
 
 

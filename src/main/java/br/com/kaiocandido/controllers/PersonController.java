@@ -1,7 +1,7 @@
 package br.com.kaiocandido.controllers;
 
+import br.com.kaiocandido.data.dto.PersonDto;
 import br.com.kaiocandido.service.PersonService;
-import br.com.kaiocandido.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,28 +19,28 @@ public class PersonController {
     @GetMapping(value = "/findById/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person findById(@PathVariable("id") Long id){
+    public PersonDto findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
 
     @GetMapping(value = "/findAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Person> findAll(){
+    public List<PersonDto> findAll(){
         return personService.findAll();
     }
 
     @PostMapping(value = "/create",
     produces = MediaType.APPLICATION_JSON_VALUE,
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody Person person){
+    public PersonDto create(@RequestBody PersonDto person){
         return personService.create(person);
     }
 
     @PutMapping(value = "/update",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person){
+    public PersonDto update(@RequestBody PersonDto person){
         return personService.update(person);
     }
 
