@@ -1,7 +1,9 @@
 package br.com.kaiocandido.service;
 
-import br.com.kaiocandido.data.dto.PersonDto;
+import br.com.kaiocandido.data.dto.PersonDtoV1;
+import br.com.kaiocandido.data.dto.PersonDtoV2;
 import br.com.kaiocandido.exception.ResourceNotFoundException;
+import br.com.kaiocandido.mapper.Custom.PersonMapper;
 import br.com.kaiocandido.model.Person;
 import br.com.kaiocandido.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,31 +23,42 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonMapper personMapper;
 
-    public PersonDto findById(Long id){
+
+    public PersonDtoV1 findById(Long id){
         logger.info("Finding one Person!!");
 
         Person entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
-        return parseObject(entity, PersonDto.class);
+        return parseObject(entity, PersonDtoV1.class);
     }
 
-    public List<PersonDto> findAll(){
+    public List<PersonDtoV1> findAll(){
         logger.info("Find all People!!");
 
-        return parseListObject(personRepository.findAll(), PersonDto.class);
+        return parseListObject(personRepository.findAll(), PersonDtoV1.class);
     }
 
-    public PersonDto create(PersonDto person){
+    public PersonDtoV1 create(PersonDtoV1 person){
         logger.info("Create Person!!");
 
         Person entity = parseObject(person, Person.class);
 
-        return parseObject(personRepository.save(entity), PersonDto.class);
+        return parseObject(personRepository.save(entity), PersonDtoV1.class);
     }
 
-    public PersonDto update(PersonDto person){
+    public PersonDtoV2 createV2(PersonDtoV2 person){
+        logger.info("Create Person V2!!");
+
+        var entity = personMapper.convertDtoToEntity(person);
+
+        return personMapper.convertEntityToDto(personRepository.save(entity));
+    }
+
+    public PersonDtoV1 update(PersonDtoV1 person){
         logger.info("Update Person!!");
 
         Person entity = personRepository.findById(person.getId())
@@ -56,7 +69,7 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return parseObject(personRepository.save(entity), PersonDto.class);
+        return parseObject(personRepository.save(entity), PersonDtoV1.class);
     }
 
 

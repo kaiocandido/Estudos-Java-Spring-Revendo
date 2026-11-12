@@ -4,7 +4,7 @@ package br.com.kaiocandido.data.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonDto implements Serializable {
+public class PersonDtoV1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +14,7 @@ public class PersonDto implements Serializable {
     private String address;
     private String gender;
 
-    public PersonDto() {
+    public PersonDtoV1() {
     }
 
     public Long getId() {
@@ -59,7 +59,7 @@ public class PersonDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PersonDto person)) return false;
+        if (!(o instanceof PersonDtoV1 person)) return false;
         return Objects.equals(id, person.id) && Objects.equals(fistName, person.fistName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 

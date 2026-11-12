@@ -1,6 +1,7 @@
 package br.com.kaiocandido.controllers;
 
-import br.com.kaiocandido.data.dto.PersonDto;
+import br.com.kaiocandido.data.dto.PersonDtoV1;
+import br.com.kaiocandido.data.dto.PersonDtoV2;
 import br.com.kaiocandido.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,28 +20,35 @@ public class PersonController {
     @GetMapping(value = "/findById/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public PersonDto findById(@PathVariable("id") Long id){
+    public PersonDtoV1 findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
 
     @GetMapping(value = "/findAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<PersonDto> findAll(){
+    public List<PersonDtoV1> findAll(){
         return personService.findAll();
     }
 
     @PostMapping(value = "/create",
     produces = MediaType.APPLICATION_JSON_VALUE,
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PersonDto create(@RequestBody PersonDto person){
+    public PersonDtoV1 create(@RequestBody PersonDtoV1 person){
         return personService.create(person);
+    }
+
+    @PostMapping(value = "/createV2",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PersonDtoV2 create(@RequestBody PersonDtoV2 person){
+        return personService.createV2(person);
     }
 
     @PutMapping(value = "/update",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PersonDto update(@RequestBody PersonDto person){
+    public PersonDtoV1 update(@RequestBody PersonDtoV1 person){
         return personService.update(person);
     }
 
